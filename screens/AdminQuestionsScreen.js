@@ -8,7 +8,7 @@ import { AppContext } from '../contexts/AppContext';
 const CATS = [
   { value: 'fracciones', label: 'Fracciones' },
   { value: 'algebra', label: 'Álgebra' },
-  { value: 'ecuaciones', label: 'Ecuaciones' },
+  { value: 'igualdades', label: 'Igualdades' },
 ];
 
 const LEVELS = [

@@ -1,0 +1,1509 @@
+{
+  "generatedAt": "2025-10-16T21:46:06.861Z",
+  "files": {
+    "App.js": {
+      "path": "App.js",
+      "imports": [
+        {
+          "raw": "import { NavigationContainer } from '@react-navigation/native'",
+          "spec": "{ NavigationContainer }",
+          "source": "@react-navigation/native"
+        },
+        {
+          "raw": "import TabNavigator from './navigation/TabNavigator'",
+          "spec": "TabNavigator",
+          "source": "./navigation/TabNavigator"
+        },
+        {
+          "raw": "import AuthStackScreen from './navigation/AuthStack'",
+          "spec": "AuthStackScreen",
+          "source": "./navigation/AuthStack"
+        },
+        {
+          "raw": "import { AppProvider, AppContext } from './contexts/AppContext'",
+          "spec": "{ AppProvider, AppContext }",
+          "source": "./contexts/AppContext"
+        },
+        {
+          "raw": "import { Modal } from 'react-native'",
+          "spec": "{ Modal }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import ProfileScreen from './screens/ProfileScreen'",
+          "spec": "ProfileScreen",
+          "source": "./screens/ProfileScreen"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "App",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "babel.config.js": {
+      "path": "babel.config.js",
+      "imports": [],
+      "exports": [
+        {
+          "type": "module.exports",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    },
+    "contexts\\AppContext.js": {
+      "path": "contexts\\AppContext.js",
+      "imports": [
+        {
+          "raw": "import React, { useState, useEffect, useCallback, useMemo } from 'react'",
+          "spec": "React, { useState, useEffect, useCallback, useMemo }",
+          "source": "react"
+        },
+        {
+          "raw": "import { ref, set, get, update } from 'firebase/database'",
+          "spec": "{ ref, set, get, update }",
+          "source": "firebase/database"
+        },
+        {
+          "raw": "import AsyncStorage from '@react-native-async-storage/async-storage'",
+          "spec": "AsyncStorage",
+          "source": "@react-native-async-storage/async-storage"
+        },
+        {
+          "raw": "import { db, loginUser, registerUser } from '../firebase/firebaseConfig.js'",
+          "spec": "{ db, loginUser, registerUser }",
+          "source": "../firebase/firebaseConfig.js"
+        },
+        {
+          "raw": "import Toast from 'react-native-toast-message'",
+          "spec": "Toast",
+          "source": "react-native-toast-message"
+        },
+        {
+          "raw": "import { generarLote } from '../IA/chatGPTConfig'",
+          "spec": "{ generarLote }",
+          "source": "../IA/chatGPTConfig"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "AppContext"
+        },
+        {
+          "type": "named",
+          "name": "AppProvider"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "AppProvider",
+          "params": "{ children }",
+          "type": "function"
+        },
+        {
+          "name": "tz",
+          "params": "'America/Bogota';\r\nconst todayYMD = (",
+          "type": "function"
+        },
+        {
+          "name": "normalizeQuestion",
+          "params": "q = {}, fallbackLevel, fallbackCat",
+          "type": "function"
+        },
+        {
+          "name": "makeHash",
+          "params": "q",
+          "type": "component"
+        },
+        {
+          "name": "signUp",
+          "params": "useCallback(async (fullName, documentId, course, email, password",
+          "type": "function"
+        },
+        {
+          "name": "signIn",
+          "params": "useCallback(async (email, password",
+          "type": "function"
+        },
+        {
+          "name": "signOut",
+          "params": "useCallback((",
+          "type": "function"
+        },
+        {
+          "name": "patchPreferencesRemote",
+          "params": "useCallback(async (patch",
+          "type": "function"
+        },
+        {
+          "name": "setHighContrast",
+          "params": "useCallback(async v",
+          "type": "function"
+        },
+        {
+          "name": "setReduceMotion",
+          "params": "useCallback(async v",
+          "type": "function"
+        },
+        {
+          "name": "setPreloadNext",
+          "params": "useCallback(async v",
+          "type": "function"
+        },
+        {
+          "name": "persistPool",
+          "params": "useCallback(async (list",
+          "type": "function"
+        },
+        {
+          "name": "addToPool",
+          "params": "useCallback(async (q",
+          "type": "function"
+        },
+        {
+          "name": "upsertQuestionsToDB",
+          "params": "async (category, level, list",
+          "type": "function"
+        },
+        {
+          "name": "fetchRandomFromDB",
+          "params": "async ({ category, level, count = 1 }",
+          "type": "function"
+        },
+        {
+          "name": "generateAndStore",
+          "params": "useCallback(async ({ level, category, fallbackBatchSize = 10 }",
+          "type": "function"
+        },
+        {
+          "name": "picked",
+          "params": "null;\r\n    setQuestionPool(prev",
+          "type": "function"
+        },
+        {
+          "name": "getNextQuestion",
+          "params": "useCallback(async ({ level, category }",
+          "type": "function"
+        },
+        {
+          "name": "picked",
+          "params": "null;\r\n    setQuestionPool(prev",
+          "type": "component"
+        },
+        {
+          "name": "getBatchQuestions",
+          "params": "useCallback(\r\n    async ({ level, count = 5, categories = ['fracciones', 'algebra', 'ecuaciones'] }",
+          "type": "function"
+        },
+        {
+          "name": "shuffle",
+          "params": "a",
+          "type": "function"
+        },
+        {
+          "name": "createQuestionsBatch",
+          "params": "useCallback(async ({ category, level, count }",
+          "type": "function"
+        },
+        {
+          "name": "pushIfNew",
+          "params": "q",
+          "type": "function"
+        },
+        {
+          "name": "recomputeLives",
+          "params": "useCallback(async (srcUser = user",
+          "type": "function"
+        },
+        {
+          "name": "spendLife",
+          "params": "useCallback(async (",
+          "type": "component"
+        },
+        {
+          "name": "giveLife",
+          "params": "useCallback(async (n = 1",
+          "type": "function"
+        },
+        {
+          "name": "timeToNextLifeMs",
+          "params": "useCallback((",
+          "type": "function"
+        },
+        {
+          "name": "payXP",
+          "params": "useCallback(async (cost",
+          "type": "component"
+        },
+        {
+          "name": "buyLifeWithXP",
+          "params": "useCallback(async (cost = 50",
+          "type": "function"
+        },
+        {
+          "name": "upgradeLivesMax",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "reduceRecoveryTime",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "upgradeAttempts",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "ensureDailyStreak",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "addXP",
+          "params": "useCallback(async (delta",
+          "type": "function"
+        },
+        {
+          "name": "registerCorrect",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "registerWrong",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "completeDailyGoalIfNeeded",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "isDailyChallengeDoneToday",
+          "params": "useCallback((",
+          "type": "function"
+        }
+      ],
+      "objects": [
+        {
+          "name": "preferences",
+          "keys": [
+            "highContrast",
+            "false",
+            "reduceMotion",
+            "preloadNext"
+          ]
+        },
+        {
+          "name": "progress",
+          "keys": [
+            "xp",
+            "0",
+            "currentStreak",
+            "bestStreak",
+            "lastSessionDate",
+            "null",
+            "totalCorrect",
+            "totalWrong",
+            "chests",
+            "lives",
+            "DEFAULT_LIVES",
+            "livesMax",
+            "lifeRecoveryMinutes",
+            "DEFAULT_RECOVERY_MIN",
+            "lastLifeTs",
+            "Date",
+            "now",
+            "maxAttemptsPerQuestion",
+            "DEFAULT_ATTEMPTS"
+          ]
+        },
+        {
+          "name": "progress",
+          "keys": [
+            "p",
+            "lives",
+            "DEFAULT_LIVES",
+            "livesMax",
+            "lifeRecoveryMinutes",
+            "DEFAULT_RECOVERY_MIN",
+            "lastLifeTs",
+            "Date",
+            "now",
+            "maxAttemptsPerQuestion",
+            "DEFAULT_ATTEMPTS"
+          ]
+        },
+        {
+          "name": "patch",
+          "keys": []
+        },
+        {
+          "name": "patch",
+          "keys": [
+            "lastSessionDate",
+            "today",
+            "currentStreak",
+            "nextStreak",
+            "bestStreak",
+            "best"
+          ]
+        },
+        {
+          "name": "patch",
+          "keys": [
+            "lastSessionDate",
+            "today",
+            "dailyChallengeCompletedDate",
+            "currentStreak",
+            "nextStreak",
+            "bestStreak",
+            "best"
+          ]
+        }
+      ],
+      "types": [],
+      "defaultAnon": false
+    },
+    "extract-project-structure.js": {
+      "path": "extract-project-structure.js",
+      "imports": [
+        {
+          "raw": "require('fs')",
+          "spec": "",
+          "source": "fs"
+        },
+        {
+          "raw": "require('path')",
+          "spec": "",
+          "source": "path"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "anonymously"
+        },
+        {
+          "type": "named",
+          "name": "default"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "walk",
+          "params": "dir",
+          "type": "function"
+        },
+        {
+          "name": "readFileSafe",
+          "params": "fp",
+          "type": "function"
+        },
+        {
+          "name": "extractBalanced",
+          "params": "text, startIdx",
+          "type": "function"
+        },
+        {
+          "name": "findClasses",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "findFunctionsAndComponents",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "findObjectLiterals",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "findTypesAndInterfaces",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "findImports",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "findExports",
+          "params": "src",
+          "type": "function"
+        },
+        {
+          "name": "analyzeFile",
+          "params": "fp",
+          "type": "function"
+        },
+        {
+          "name": "buildIndex",
+          "params": "files",
+          "type": "function"
+        },
+        {
+          "name": "Name",
+          "params": "...",
+          "type": "component"
+        },
+        {
+          "name": "index",
+          "params": "{};\r\n  files.forEach(f",
+          "type": "function"
+        }
+      ],
+      "objects": [
+        {
+          "name": "index",
+          "keys": []
+        }
+      ],
+      "types": [],
+      "defaultAnon": true
+    },
+    "firebase\\firebaseConfig.js": {
+      "path": "firebase\\firebaseConfig.js",
+      "imports": [
+        {
+          "raw": "import { initializeApp, getApps, getApp } from 'firebase/app'",
+          "spec": "{ initializeApp, getApps, getApp }",
+          "source": "firebase/app"
+        },
+        {
+          "raw": "import { getDatabase } from 'firebase/database'",
+          "spec": "{ getDatabase }",
+          "source": "firebase/database"
+        },
+        {
+          "raw": "import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/auth'",
+          "spec": "{ initializeAuth, getReactNativePersistence, getAuth }",
+          "source": "firebase/auth"
+        },
+        {
+          "raw": "import AsyncStorage from '@react-native-async-storage/async-storage'",
+          "spec": "AsyncStorage",
+          "source": "@react-native-async-storage/async-storage"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "async"
+        },
+        {
+          "type": "named",
+          "name": "async"
+        },
+        {
+          "type": "named",
+          "raw": "export "
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "loginUser",
+          "params": "email, password",
+          "type": "function"
+        },
+        {
+          "name": "registerUser",
+          "params": "email, password",
+          "type": "function"
+        }
+      ],
+      "objects": [
+        {
+          "name": "firebaseConfig",
+          "keys": [
+            "apiKey",
+            "AIzaSyD7DRb6kog1BhTDgp_WX7Qewkgg14eQeTA",
+            "authDomain",
+            "aplicativo",
+            "62171",
+            "firebaseapp",
+            "com",
+            "databaseURL",
+            "https",
+            "projectId",
+            "storageBucket",
+            "firebasestorage",
+            "app",
+            "messagingSenderId",
+            "195455809564",
+            "appId",
+            "1",
+            "web",
+            "c8d62136da91d7498dc7d9"
+          ]
+        }
+      ],
+      "types": [],
+      "defaultAnon": false
+    },
+    "functions\\.eslintrc.js": {
+      "path": "functions\\.eslintrc.js",
+      "imports": [],
+      "exports": [
+        {
+          "type": "module.exports",
+          "name": "{"
+        }
+      ],
+      "classes": [],
+      "functions": [],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    },
+    "functions\\index.js": {
+      "path": "functions\\index.js",
+      "imports": [
+        {
+          "raw": "require(\"firebase-functions\")",
+          "spec": "",
+          "source": "firebase-functions"
+        },
+        {
+          "raw": "require(\"cors\")",
+          "spec": "",
+          "source": "cors"
+        }
+      ],
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    },
+    "IA\\chatGPTConfig.js": {
+      "path": "IA\\chatGPTConfig.js",
+      "imports": [
+        {
+          "raw": "import axios from \"axios\"",
+          "spec": "axios",
+          "source": "axios"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "async"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "normalizeOne",
+          "params": "obj, level, category",
+          "type": "function"
+        },
+        {
+          "name": "generarLote",
+          "params": "level, category, count = 10",
+          "type": "function"
+        },
+        {
+          "name": "shuffleInPlace",
+          "params": "a",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    },
+    "index.js": {
+      "path": "index.js",
+      "imports": [
+        {
+          "raw": "import { registerRootComponent } from 'expo'",
+          "spec": "{ registerRootComponent }",
+          "source": "expo"
+        },
+        {
+          "raw": "import App from './App'",
+          "spec": "App",
+          "source": "./App"
+        }
+      ],
+      "exports": [],
+      "classes": [],
+      "functions": [],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    },
+    "navigation\\AuthStack.js": {
+      "path": "navigation\\AuthStack.js",
+      "imports": [
+        {
+          "raw": "import React from 'react'",
+          "spec": "React",
+          "source": "react"
+        },
+        {
+          "raw": "import { createStackNavigator } from '@react-navigation/stack'",
+          "spec": "{ createStackNavigator }",
+          "source": "@react-navigation/stack"
+        },
+        {
+          "raw": "import LoginScreen from '../screens/LoginScreen'",
+          "spec": "LoginScreen",
+          "source": "../screens/LoginScreen"
+        },
+        {
+          "raw": "import RegisterScreen from '../screens/RegisterScreen'",
+          "spec": "RegisterScreen",
+          "source": "../screens/RegisterScreen"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "AuthStackScreen",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "navigation\\HomeStack.js": {
+      "path": "navigation\\HomeStack.js",
+      "imports": [
+        {
+          "raw": "import React from \"react\"",
+          "spec": "React",
+          "source": "react"
+        },
+        {
+          "raw": "import { createStackNavigator } from \"@react-navigation/stack\"",
+          "spec": "{ createStackNavigator }",
+          "source": "@react-navigation/stack"
+        },
+        {
+          "raw": "import HomeScreen from \"../screens/HomeScreen\"",
+          "spec": "HomeScreen",
+          "source": "../screens/HomeScreen"
+        },
+        {
+          "raw": "import ExerciseScreen from \"../screens/ExerciseScreen\"",
+          "spec": "ExerciseScreen",
+          "source": "../screens/ExerciseScreen"
+        },
+        {
+          "raw": "import TimeAttackScreen from '../screens/TimeAttackScreen'",
+          "spec": "TimeAttackScreen",
+          "source": "../screens/TimeAttackScreen"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "HomeStackScreen",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "navigation\\TabNavigator.js": {
+      "path": "navigation\\TabNavigator.js",
+      "imports": [
+        {
+          "raw": "import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'",
+          "spec": "{ createBottomTabNavigator }",
+          "source": "@react-navigation/bottom-tabs"
+        },
+        {
+          "raw": "import HomeStackScreen from './HomeStack'",
+          "spec": "HomeStackScreen",
+          "source": "./HomeStack"
+        },
+        {
+          "raw": "import ProfileScreen from '../screens/ProfileScreen'",
+          "spec": "ProfileScreen",
+          "source": "../screens/ProfileScreen"
+        },
+        {
+          "raw": "import { Text } from 'react-native'",
+          "spec": "{ Text }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import React, { useContext } from 'react'",
+          "spec": "React, { useContext }",
+          "source": "react"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import AdminQuestionsScreen from '../screens/AdminQuestionsScreen'",
+          "spec": "AdminQuestionsScreen",
+          "source": "../screens/AdminQuestionsScreen"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "TabNavigator",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\AdminQuestionsScreen.js": {
+      "path": "screens\\AdminQuestionsScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useState, useContext } from 'react'",
+          "spec": "React, { useState, useContext }",
+          "source": "react"
+        },
+        {
+          "raw": "import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native'",
+          "spec": "{ View, Text, TouchableOpacity, TextInput, ScrollView }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import Toast from 'react-native-toast-message'",
+          "spec": "Toast",
+          "source": "react-native-toast-message"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "AdminQuestionsScreen",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "onCreate",
+          "params": "async (",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\ExerciseScreen.js": {
+      "path": "screens\\ExerciseScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useEffect, useState, useCallback, useLayoutEffect, useContext, useRef } from \"react\"",
+          "spec": "React, { useEffect, useState, useCallback, useLayoutEffect, useContext, useRef }",
+          "source": "react"
+        },
+        {
+          "raw": "import { View, Text, Pressable, Alert, StyleSheet, ActivityIndicator, Animated, Easing, ScrollView, Modal, SafeAreaView } from \"react-native\"",
+          "spec": "{ View, Text, Pressable, Alert, StyleSheet, ActivityIndicator, Animated, Easing, ScrollView, Modal, SafeAreaView }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { useFocusEffect } from \"@react-navigation/native\"",
+          "spec": "{ useFocusEffect }",
+          "source": "@react-navigation/native"
+        },
+        {
+          "raw": "import { LinearGradient } from \"expo-linear-gradient\"",
+          "spec": "{ LinearGradient }",
+          "source": "expo-linear-gradient"
+        },
+        {
+          "raw": "import { AppContext } from \"../contexts/AppContext\"",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import { normalizeQuestion, isMatchingWellFormed } from \"../utils/questions\"",
+          "spec": "{ normalizeQuestion, isMatchingWellFormed }",
+          "source": "../utils/questions"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "ExerciseScreen",
+          "params": "{ route, navigation }",
+          "type": "function"
+        },
+        {
+          "name": "XP_PER_CORRECT",
+          "params": "10;\r\nconst XP_STREAK_BONUS = 5;\r\nconst LEVEL_TARGET = 5;\r\nconst LOAD_COUNT = 10;\r\nconst DEFAULT_TAB_STYLE = { backgroundColor: \"#1E3A8A\", borderTopLeftRadius: 16, borderTopRightRadius: 16, height: 70, position: \"absolute\", shadowColor: \"#000\", shadowOpacity: 0.1, shadowOffset: { width: 0, height: -2 }, shadowRadius: 8, elevation: 6 };\r\n\r\nconst CATEGORY_LABELS = { fracciones: \"Fracciones\", algebra: \"Álgebra\", ecuaciones: \"Ecuaciones\" };\r\nconst LEVEL_LABELS = { facil: \"Fácil\", medio: \"Medio\", dificil: \"Difícil\" };\r\n\r\nconst formatHMS = (ms",
+          "type": "component"
+        },
+        {
+          "name": "runShake",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "runPulse",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "resetQuestionState",
+          "params": "useCallback((",
+          "type": "function"
+        },
+        {
+          "name": "loadQuestionsFromDB",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "handleCorrect",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "consumeAttemptOrLife",
+          "params": "async (",
+          "type": "function"
+        },
+        {
+          "name": "handleWrong",
+          "params": "async (",
+          "type": "function"
+        },
+        {
+          "name": "checkAnswerMultiple",
+          "params": "option",
+          "type": "function"
+        },
+        {
+          "name": "toggleMatch",
+          "params": "iLeft, iRight",
+          "type": "function"
+        },
+        {
+          "name": "onPressRight",
+          "params": "j",
+          "type": "function"
+        },
+        {
+          "name": "checkMatching",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "onContinue",
+          "params": "",
+          "type": "component"
+        },
+        {
+          "name": "finishLevel",
+          "params": "async (",
+          "type": "component"
+        },
+        {
+          "name": "state",
+          "params": "(",
+          "type": "component"
+        },
+        {
+          "name": "renderMatching",
+          "params": "",
+          "type": "component"
+        }
+      ],
+      "objects": [
+        {
+          "name": "DEFAULT_TAB_STYLE",
+          "keys": [
+            "backgroundColor",
+            "1E3A8A",
+            "borderTopLeftRadius",
+            "16",
+            "borderTopRightRadius",
+            "height",
+            "70",
+            "position",
+            "absolute",
+            "shadowColor",
+            "000",
+            "shadowOpacity",
+            "0",
+            "1",
+            "shadowOffset",
+            "width",
+            "2",
+            "shadowRadius",
+            "8",
+            "elevation",
+            "6"
+          ]
+        },
+        {
+          "name": "CATEGORY_LABELS",
+          "keys": [
+            "fracciones",
+            "Fracciones",
+            "algebra",
+            "lgebra",
+            "ecuaciones",
+            "Ecuaciones"
+          ]
+        },
+        {
+          "name": "LEVEL_LABELS",
+          "keys": [
+            "facil",
+            "F",
+            "cil",
+            "medio",
+            "Medio",
+            "dificil",
+            "Dif"
+          ]
+        }
+      ],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\HomeScreen.js": {
+      "path": "screens\\HomeScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useLayoutEffect, useMemo, useState, useRef, useEffect } from 'react'",
+          "spec": "React, { useContext, useLayoutEffect, useMemo, useState, useRef, useEffect }",
+          "source": "react"
+        },
+        {
+          "raw": "import { ScrollView, Text, Pressable, View, StyleSheet, Animated } from 'react-native'",
+          "spec": "{ ScrollView, Text, Pressable, View, StyleSheet, Animated }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { LinearGradient } from 'expo-linear-gradient'",
+          "spec": "{ LinearGradient }",
+          "source": "expo-linear-gradient"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import styles from '../styles/styles'",
+          "spec": "styles",
+          "source": "../styles/styles"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "HomeScreen",
+          "params": "{ navigation }",
+          "type": "function"
+        },
+        {
+          "name": "CategoryBar",
+          "params": "{ categoryKey, cfg, open, onToggle, onSelectLevel, highContrast }",
+          "type": "function"
+        },
+        {
+          "name": "CATEGORY_THEMES",
+          "params": "{\r\n  fracciones: { label: 'Fracciones', emoji: '🧮', gradient: ['#C7F9CC', '#80ED99', '#34A0A4'] },\r\n  algebra:    { label: 'Álgebra',    emoji: '🔢', gradient: ['#E9D5FF', '#C4B5FD', '#818CF8'] },\r\n  ecuaciones: { label: 'Ecuaciones', emoji: '🧩', gradient: ['#BAE6FD', '#7DD3FC', '#38BDF8'] },\r\n};\r\n\r\nconst LEVELS = [\r\n  { key: 'facil',   label: 'FÁCIL',   stars: '⭐',   colors: ['#A7F3D0', '#60A5FA'] },\r\n  { key: 'medio',   label: 'MEDIO',   stars: '⭐⭐',  colors: ['#FDE68A', '#60A5FA'] },\r\n  { key: 'dificil', label: 'DIFÍCIL', stars: '⭐⭐⭐', colors: ['#FCA5A5', '#60A5FA'] },\r\n];\r\n\r\nconst CONTINUOUS_LEVEL_GRADIENT = ['#8EDBD1', '#A7F3D0', '#FDE68A', '#F7B2B7', '#FCA5A5'];\r\n\r\nconst getTodayYMD = (",
+          "type": "component"
+        },
+        {
+          "name": "goToLevel",
+          "params": "nivel, colors, categoryKey",
+          "type": "function"
+        },
+        {
+          "name": "goToTimeAttack",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [
+        {
+          "name": "CATEGORY_THEMES",
+          "keys": [
+            "fracciones",
+            "label",
+            "Fracciones",
+            "emoji",
+            "gradient",
+            "C7F9CC",
+            "80ED99",
+            "34A0A4",
+            "algebra",
+            "lgebra",
+            "E9D5FF",
+            "C4B5FD",
+            "818CF8",
+            "ecuaciones",
+            "Ecuaciones",
+            "BAE6FD",
+            "7DD3FC",
+            "38BDF8"
+          ]
+        }
+      ],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\LoginScreen.js": {
+      "path": "screens\\LoginScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useState } from 'react'",
+          "spec": "React, { useContext, useState }",
+          "source": "react"
+        },
+        {
+          "raw": "import { Text, TextInput, TouchableOpacity, View } from 'react-native'",
+          "spec": "{ Text, TextInput, TouchableOpacity, View }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import styles from '../styles/styles'",
+          "spec": "styles",
+          "source": "../styles/styles"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "LoginScreen",
+          "params": "{ navigation }",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\ProfileScreen.js": {
+      "path": "screens\\ProfileScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useMemo, useState } from 'react'",
+          "spec": "React, { useContext, useMemo, useState }",
+          "source": "react"
+        },
+        {
+          "raw": "import { SafeAreaView, View, Text, StyleSheet, Pressable, ScrollView, Switch, Modal } from 'react-native'",
+          "spec": "{ SafeAreaView, View, Text, StyleSheet, Pressable, ScrollView, Switch, Modal }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import ShopScreen from './ShopScreen'",
+          "spec": "ShopScreen",
+          "source": "./ShopScreen"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "ProfileScreen",
+          "params": "{ onClose }",
+          "type": "function"
+        },
+        {
+          "name": "RowSwitch",
+          "params": "{ title, subtitle, value, onValueChange }",
+          "type": "function"
+        },
+        {
+          "name": "getTodayYMD",
+          "params": "",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\RegisterScreen.js": {
+      "path": "screens\\RegisterScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useState } from 'react'",
+          "spec": "React, { useContext, useState }",
+          "source": "react"
+        },
+        {
+          "raw": "import { Text, TextInput, TouchableOpacity, View } from 'react-native'",
+          "spec": "{ Text, TextInput, TouchableOpacity, View }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import styles from '../styles/styles'",
+          "spec": "styles",
+          "source": "../styles/styles"
+        },
+        {
+          "raw": "import Toast from 'react-native-toast-message'",
+          "spec": "Toast",
+          "source": "react-native-toast-message"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "RegisterScreen",
+          "params": "{ navigation }",
+          "type": "function"
+        },
+        {
+          "name": "handleRegister",
+          "params": "",
+          "type": "component"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\ShopScreen.js": {
+      "path": "screens\\ShopScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useMemo, useEffect, useState } from 'react'",
+          "spec": "React, { useContext, useMemo, useEffect, useState }",
+          "source": "react"
+        },
+        {
+          "raw": "import { SafeAreaView, View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'",
+          "spec": "{ SafeAreaView, View, Text, StyleSheet, Pressable, ScrollView }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "ShopScreen",
+          "params": "{ onClose }",
+          "type": "function"
+        },
+        {
+          "name": "formatHMS",
+          "params": "ms",
+          "type": "component"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "screens\\TimeAttackScreen.js": {
+      "path": "screens\\TimeAttackScreen.js",
+      "imports": [
+        {
+          "raw": "import React, { useContext, useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'",
+          "spec": "React, { useContext, useEffect, useLayoutEffect, useRef, useState, useCallback }",
+          "source": "react"
+        },
+        {
+          "raw": "import { View, Text, StyleSheet, Pressable, SafeAreaView, Modal, ActivityIndicator } from 'react-native'",
+          "spec": "{ View, Text, StyleSheet, Pressable, SafeAreaView, Modal, ActivityIndicator }",
+          "source": "react-native"
+        },
+        {
+          "raw": "import { LinearGradient } from 'expo-linear-gradient'",
+          "spec": "{ LinearGradient }",
+          "source": "expo-linear-gradient"
+        },
+        {
+          "raw": "import { AppContext } from '../contexts/AppContext'",
+          "spec": "{ AppContext }",
+          "source": "../contexts/AppContext"
+        },
+        {
+          "raw": "import { normalizeQuestion } from '../utils/questions'",
+          "spec": "{ normalizeQuestion }",
+          "source": "../utils/questions"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "function"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "TimeAttackScreen",
+          "params": "{ route, navigation }",
+          "type": "function"
+        },
+        {
+          "name": "CATS",
+          "params": "['fracciones', 'algebra', 'ecuaciones'];\r\nconst LEVELS = ['facil', 'medio', 'dificil'];\r\n\r\nconst formatHMS = (ms",
+          "type": "component"
+        },
+        {
+          "name": "sample",
+          "params": "arr, n",
+          "type": "function"
+        },
+        {
+          "name": "preloadMixed",
+          "params": "useCallback(async (",
+          "type": "function"
+        },
+        {
+          "name": "endLose",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "endWin",
+          "params": "async (",
+          "type": "function"
+        },
+        {
+          "name": "nextQuestion",
+          "params": "",
+          "type": "component"
+        },
+        {
+          "name": "onPick",
+          "params": "opt",
+          "type": "function"
+        },
+        {
+          "name": "onContinueAfterWrong",
+          "params": "",
+          "type": "function"
+        },
+        {
+          "name": "renderGame",
+          "params": "",
+          "type": "component"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "styles\\styles.js": {
+      "path": "styles\\styles.js",
+      "imports": [
+        {
+          "raw": "import { StyleSheet } from 'react-native'",
+          "spec": "{ StyleSheet }",
+          "source": "react-native"
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "default"
+        },
+        {
+          "type": "default",
+          "name": "StyleSheet"
+        }
+      ],
+      "classes": [],
+      "functions": [],
+      "objects": [],
+      "types": [],
+      "defaultAnon": true
+    },
+    "utils\\questions.js": {
+      "path": "utils\\questions.js",
+      "imports": [],
+      "exports": [
+        {
+          "type": "named",
+          "name": "normalizeQuestion"
+        },
+        {
+          "type": "named",
+          "name": "isMatchingWellFormed"
+        }
+      ],
+      "classes": [],
+      "functions": [
+        {
+          "name": "normalizeQuestion",
+          "params": "q = {}, fallbackLevel, fallbackCat",
+          "type": "function"
+        }
+      ],
+      "objects": [],
+      "types": [],
+      "defaultAnon": false
+    }
+  }
+}

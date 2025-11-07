@@ -5,7 +5,7 @@ import { AppContext } from '../contexts/AppContext';
 import { normalizeQuestion } from '../utils/questions';
 
 // categorías y niveles que vamos a mezclar
-const CATS = ['fracciones', 'algebra', 'ecuaciones'];
+const CATS = ['fracciones', 'algebra', 'igualdades'];
 const LEVELS = ['facil', 'medio', 'dificil'];
 
 const formatHMS = (ms) => {

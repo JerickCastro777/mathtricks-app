@@ -7,7 +7,7 @@ import styles from '../styles/styles';
 const CATEGORY_THEMES = {
   fracciones: { label: 'Fracciones', emoji: '🧮', gradient: ['#C7F9CC', '#80ED99', '#34A0A4'] },
   algebra:    { label: 'Álgebra',    emoji: '🔢', gradient: ['#E9D5FF', '#C4B5FD', '#818CF8'] },
-  ecuaciones: { label: 'Ecuaciones', emoji: '🧩', gradient: ['#BAE6FD', '#7DD3FC', '#38BDF8'] },
+  igualdades: { label: 'Igualdades', emoji: '🧩', gradient: ['#BAE6FD', '#7DD3FC', '#38BDF8'] },
 };
 
 const LEVELS = [

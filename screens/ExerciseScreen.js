@@ -12,7 +12,7 @@ const LEVEL_TARGET = 5;
 const LOAD_COUNT = 10;
 const DEFAULT_TAB_STYLE = { backgroundColor: "#1E3A8A", borderTopLeftRadius: 16, borderTopRightRadius: 16, height: 70, position: "absolute", shadowColor: "#000", shadowOpacity: 0.1, shadowOffset: { width: 0, height: -2 }, shadowRadius: 8, elevation: 6 };
 
-const CATEGORY_LABELS = { fracciones: "Fracciones", algebra: "Álgebra", ecuaciones: "Ecuaciones" };
+const CATEGORY_LABELS = { fracciones: "Fracciones", algebra: "Álgebra", igualdades: "Igualdades" };
 const LEVEL_LABELS = { facil: "Fácil", medio: "Medio", dificil: "Difícil" };
 
 const formatHMS = (ms) => {
@@ -55,6 +55,9 @@ export default function ExerciseScreen({ route, navigation }) {
   const [resultVisible, setResultVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [triedWrong, setTriedWrong] = useState([]);
+
+  // pending life flag (cuando se agotaron los intentos y debemos gastar vida pero después de mostrar retro)
+  const [pendingSpendLife, setPendingSpendLife] = useState(false);
 
   // matching state
   const [mLeftSel, setMLeftSel] = useState(null);
@@ -112,6 +115,7 @@ export default function ExerciseScreen({ route, navigation }) {
     setAttemptsLeft(user?.progress?.maxAttemptsPerQuestion ?? 2);
     setResultVisible(false); setTriedWrong([]);
     setMLeftSel(null); setMPairs([]);
+    setPendingSpendLife(false);
   }, [user?.progress?.maxAttemptsPerQuestion]);
 
   const loadQuestionsFromDB = useCallback(async () => {
@@ -130,12 +134,23 @@ export default function ExerciseScreen({ route, navigation }) {
 
   useEffect(() => { loadQuestionsFromDB(); }, [loadQuestionsFromDB]);
 
-  useEffect(() => {
-    if (lives <= 0 && !loading) {
-      const mins = Math.ceil(timeToNextLifeMs() / 60000);
-      Alert.alert("Sin vidas", `Se recuperará una vida en aprox. ${mins} min.`, [{ text: "OK", onPress: () => navigation.goBack() }]);
-    }
-  }, [lives, loading, navigation, timeToNextLifeMs]);
+useEffect(() => {
+  if (lives <= 0 && !loading) {
+    const mins = Math.ceil(timeToNextLifeMs() / 60000);
+
+    // Navegamos inmediatamente al menú principal y limpiamos la pila
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Inicio" }],
+    });
+
+    // Mostramos una alerta informativa en la pantalla inicial
+    // con un pequeño retardo para asegurarnos que la navegación terminó.
+    setTimeout(() => {
+      Alert.alert("Sin vidas", `Se recuperará una vida en aprox. ${mins} min.`);
+    }, 250);
+  }
+}, [lives, loading, navigation, timeToNextLifeMs]);
 
   const handleCorrect = () => {
     setResult("correct"); setLocked(true); setResultVisible(true); runPulse();
@@ -149,25 +164,45 @@ export default function ExerciseScreen({ route, navigation }) {
     });
   };
 
+  // ahora NO gastamos la vida inmediatamente; en su lugar marcamos pendingSpendLife para mostrar retro y gastar al continuar
   const consumeAttemptOrLife = async () => {
     setAttemptsLeft((prev) => prev - 1);
+    // we check the *current* attemptsLeft state value by reading from closure is tricky; instead compute after set via prev:
+    // but above we decreased attemptsLeft asynchronously — easier: read local var from state using function form
+    // However to keep it simple: check the state AFTER a small tick
+    // We'll instead compute below using a callback-like approach by referencing current attemptsLeft via a functional setAttempt? To keep code simple:
+    // We'll use a trick: capture current attemptsLeft in variable before calling this function from handleWrong.
+    // To avoid complexity, handleWrong will manage when attempts reach 0 and call this function only to decrement.
+    // For safety here, still set pending if attemptsLeft <= 1 (meaning after decrement becomes 0)
+    // NOTE: attemptsLeft in closure is current value; if attemptsLeft <= 1 then after decrement it'll be <=0
     if (attemptsLeft - 1 <= 0) {
-      const ok = await spendLife();
-      await recomputeLives();
-      if (!ok) return;
+      // mark that we need to spend a life, but **after** showing retro
+      setPendingSpendLife(true);
       setLocked(true);
+      return;
     }
+    // otherwise normal: we left attempts and nothing else
   };
 
   const handleWrong = async () => {
     setResult("wrong"); setResultVisible(true); runShake();
-    registerWrong(); await consumeAttemptOrLife();
+    registerWrong();
+    // add this selection to triedWrong so it's disabled next time
+    if (selected !== null && selected !== undefined) {
+      setTriedWrong(prev => {
+        const next = Array.isArray(prev) ? prev.slice() : [];
+        if (!next.includes(selected)) next.push(selected);
+        return next;
+      });
+    }
+    await consumeAttemptOrLife();
   };
 
   const checkAnswerMultiple = (option) => {
     if (!question || locked || resultVisible) return;
     setSelected(option);
-    option === question.answer ? handleCorrect() : handleWrong();
+    if (option === question.answer) handleCorrect();
+    else handleWrong();
   };
 
   // matching
@@ -189,8 +224,22 @@ export default function ExerciseScreen({ route, navigation }) {
     ok ? handleCorrect() : handleWrong();
   };
 
-  const onContinue = () => {
+  const onContinue = async () => {
     if (levelCompleted) return;
+    // if we have pendingSpendLife, spend the life now (user saw the feedback in modal)
+    if (pendingSpendLife) {
+      // try spending life; if spendLife returns false, we still proceed but warn
+      const ok = await spendLife();
+      await recomputeLives();
+      setPendingSpendLife(false);
+      setResultVisible(false);
+      // after spending life, go to next question
+      resetQuestionState();
+      if (qIndex + 1 < questions.length) setQIndex(qIndex + 1);
+      else loadQuestionsFromDB();
+      return;
+    }
+
     setResultVisible(false);
     resetQuestionState();
     if (qIndex + 1 < questions.length) setQIndex(qIndex + 1);
@@ -209,6 +258,37 @@ export default function ExerciseScreen({ route, navigation }) {
   const letters = ["A","B","C","D","E","F"];
   const shake = shakeAnim.interpolate({ inputRange: [-1, 1], outputRange: [-6, 6] });
   const canRetry = result === "wrong" && attemptsLeft > 0 && !locked;
+
+  // --- Render helper para mostrar la respuesta correcta dentro del modal cuando se agotaron intentos ---
+  const renderCorrectFeedback = () => {
+    if (!question) return null;
+    if (question.type === 'matching') {
+      // mostrar pares esperados si están disponibles
+      const left = Array.isArray(question.left) ? question.left : [];
+      const right = Array.isArray(question.right) ? question.right : [];
+      const pairs = Array.isArray(question.pairs) ? question.pairs : [];
+      return (
+        <View style={{ marginTop: 8 }}>
+          <Text style={{ fontWeight: '800', marginBottom: 6 }}>Emparejamientos correctos:</Text>
+          {pairs.map(([L,R], idx) => (
+            <Text key={`pairf-${idx}`} style={{ marginBottom: 4 }}>
+              {String(left[L])} → {String(right[R])}
+            </Text>
+          ))}
+        </View>
+      );
+    } else {
+      // multiple-choice / single answer
+      const correct = question.answer;
+      return (
+        <View style={{ marginTop: 8 }}>
+          <Text style={{ fontWeight: '800', marginBottom: 6 }}>Respuesta correcta:</Text>
+          <Text style={{ marginBottom: 6 }}>{String(correct)}</Text>
+          {question.explanation ? <Text style={{ marginTop: 6 }}>{String(question.explanation)}</Text> : null}
+        </View>
+      );
+    }
+  };
 
   if (loading) {
     return (
@@ -362,14 +442,22 @@ export default function ExerciseScreen({ route, navigation }) {
             <Text style={[ sx.resultTitle, result==="correct" ? sx.resultOk : sx.resultBad, highContrast && (result==="correct" ? sx.hcOk : sx.hcBad) ]}>
               {result==="correct" ? "¡Correcto!" : "Respuesta incorrecta"}
             </Text>
-            {result==="wrong" && question.type==="multiple" && selected && (
-              <Text style={sx.resultText}>
-                Respuesta correcta: <Text style={sx.resultStrong}>{String(question.answer)}</Text>
-              </Text>
+
+            {/* Si se agotaron intentos y tenemos que mostrar retro antes de gastar la vida -> mostrar la respuesta correcta */}
+            {result === "wrong" && pendingSpendLife ? (
+              <>
+                <Text style={sx.resultText}>Se agotaron los intentos. Aquí está la respuesta correcta:</Text>
+                {renderCorrectFeedback()}
+                <Text style={[sx.resultText, { marginTop: 10, fontStyle: 'italic' }]}>Presiona "Siguiente" para perder una vida y continuar.</Text>
+              </>
+            ) : (
+              result === "wrong" ? <Text style={sx.resultText}>Inténtalo de nuevo si te quedan intentos.</Text> : null
             )}
-            {!!question.explanation && <Text style={sx.resultText}>Explicación: {String(question.explanation)}</Text>}
+
             <Pressable onPress={canRetry ? () => setResultVisible(false) : onContinue} style={[sx.nextBtn, highContrast && sx.hcNextBtn]}>
-              <Text style={[sx.nextBtnText, highContrast && sx.hcNextBtnText]}>{canRetry ? "Intentar de nuevo" : "Siguiente"}</Text>
+              <Text style={[sx.nextBtnText, highContrast && sx.hcNextBtnText]}>
+                {canRetry ? "Intentar de nuevo" : (pendingSpendLife ? "Siguiente (perder vida)" : "Siguiente")}
+              </Text>
             </Pressable>
           </View>
         </View>

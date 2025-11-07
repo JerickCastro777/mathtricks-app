@@ -308,7 +308,7 @@ export function AppProvider({ children }) {
 
   // Obtiene un lote aleatorio desde BD (permite mezclar niveles/categorías)
   const getBatchQuestions = useCallback(
-    async ({ level, count = 5, categories = ['fracciones', 'algebra', 'ecuaciones'] }) => {
+    async ({ level, count = 5, categories = ['fracciones', 'algebra', 'igualdades'] }) => {
       const lev = String(level || '').toLowerCase();
       let bucket = [];
 

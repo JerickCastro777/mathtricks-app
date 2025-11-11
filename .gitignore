@@ -34,6 +34,10 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+IA/secret.local.js
+
 
 .env
 .env.*
+project_extraction.json
+project_structure.json

@@ -1,8 +1,5 @@
 import axios from "axios";
-
-// 鈿狅笍 Opci贸n C (s贸lo demo): la API key queda dentro del APK.
-// Recuerda ROTAR/ELIMINAR esta key despu茅s de tu clase.
-const OPENAI_API_KEY = "***REMOVED***";
+import { OPENAI_API_KEY } from "./secret.local"; // ← import local, no versionado
 
 // Cliente Axios para OpenAI
 const api = axios.create({
@@ -11,8 +8,9 @@ const api = axios.create({
     "Content-Type": "application/json",
     Authorization: `Bearer ${OPENAI_API_KEY}`,
   },
-  timeout: 30000, // 30s por si pide muchos 铆tems
+  timeout: 30000,
 });
+
 
 // ---- Utilidades de normalizaci贸n ----
 function normalizeOne(obj, level, category) {

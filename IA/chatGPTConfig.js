@@ -101,7 +101,6 @@ export async function generarLote(level, category, count = 10) {
   }
 ]`;
 
-  // 馃煝 Modelo v谩lido y econ贸mico para este caso
   const model = "gpt-4o-mini";
 
   let raw = "[]";

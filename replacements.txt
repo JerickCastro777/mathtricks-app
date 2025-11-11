@@ -1,0 +1,2 @@
+# Reemplaza cualquier token con formato sk-... por ***REMOVED***
+regex:(sk-[A-Za-z0-9_\-]{20,})==>***REMOVED***

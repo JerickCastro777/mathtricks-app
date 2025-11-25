@@ -3,7 +3,6 @@
 const asArray = (v) => (Array.isArray(v) ? v : []);
 
 export const normalizeQuestion = (q = {}, fallbackLevel, fallbackCat) => {
-  // Unifica campos en español/inglés y estructura segura
   const type =
     q.type === 'matching' || q.tipo === 'emparejamiento'
       ? 'matching'

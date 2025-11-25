@@ -16,17 +16,15 @@ export default function ShopScreen({ onClose }) {
   const p = user?.progress || {};
   const { xp, lives, livesMax, lifeRecoveryMinutes, maxAttemptsPerQuestion } = p;
 
-  // ticker para cronómetro
   const [nowTick, setNowTick] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setNowTick(t => t + 1), 1000);
     return () => clearInterval(id);
   }, []);
 
-  // Convierte ms -> "HH:MM:SS"
   const formatHMS = (ms) => {
     if (!ms || ms <= 0) return '00:00:00';
-    const total = Math.ceil(ms / 1000); // que se sienta "countdown"
+    const total = Math.ceil(ms / 1000); 
     const h = Math.floor(total / 3600);
     const m = Math.floor((total % 3600) / 60);
     const s = total % 60;
@@ -34,7 +32,6 @@ export default function ShopScreen({ onClose }) {
     return `${pad(h)}:${pad(m)}:${pad(s)}`;
   };
   
-  // usa nowTick para forzar recálculo cada segundo
   const msLeft = timeToNextLifeMs() + (nowTick && 0);
   const nextLifeStr = msLeft ? formatHMS(msLeft) : '—';
 

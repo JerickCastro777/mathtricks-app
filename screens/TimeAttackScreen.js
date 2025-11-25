@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AppContext } from '../contexts/AppContext';
 import { normalizeQuestion } from '../utils/questions';
 
-// categorías y niveles que vamos a mezclar
 const CATS = ['fracciones', 'algebra', 'igualdades'];
 const LEVELS = ['facil', 'medio', 'dificil'];
 
@@ -16,7 +15,6 @@ const formatHMS = (ms) => {
   return `${pad(m)}:${pad(s)}`;
 };
 
-// devuelve muestra aleatoria sin reemplazo
 const sample = (arr, n) => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -33,41 +31,36 @@ export default function TimeAttackScreen({ route, navigation }) {
     getBatchQuestions, addXP,
   } = useContext(AppContext);
 
-  // --------- CONFIG DE ESTA MODALIDAD ---------
-  const TARGET = 5;           // preguntas por ronda inicial
-  const REWARD_XP = 200;      // premio final si completas todo
-  const START_LIVES = 3;      // vidas locales para esta modalidad
+  const TARGET = 5;         
+  const REWARD_XP = 200;     
+  const START_LIVES = 3;      
 
-  // --------- FASES ---------
-  // preload -> playing -> reviewWrong -> done
   const [phase, setPhase] = useState('preload');
 
-  // temporizador
+
   const [remaining, setRemaining] = useState(totalMs);
   const timerRef = useRef(null);
   const startTsRef = useRef(null);
 
-  // vidas locales
   const [lives, setLives] = useState(START_LIVES);
 
-  // paquetes
-  const [pack, setPack] = useState([]);       // lote de juego actual
-  const [index, setIndex] = useState(0);      // índice actual dentro del pack
+
+  const [pack, setPack] = useState([]);       
+  const [index, setIndex] = useState(0);      
   const q = pack[index] || null;
 
-  // para la segunda vuelta (solo las malas)
-  const wrongQueueRef = useRef([]);           // acumulador de falladas en la 1ª pasada
+
+  const wrongQueueRef = useRef([]);         
   const [isReviewRound, setIsReviewRound] = useState(false);
 
-  // UI / estado de respuesta
+
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [resultModal, setResultModal] = useState({ show: false, win: false });
-  const [selected, setSelected] = useState(null); // opción elegida
-  const [showContinue, setShowContinue] = useState(false); // mostrar botón “Continuar” tras fallar
-  const [answeredCorrect, setAnsweredCorrect] = useState(0); // aciertos de la ronda actual
+  const [selected, setSelected] = useState(null); 
+  const [showContinue, setShowContinue] = useState(false); 
+  const [answeredCorrect, setAnsweredCorrect] = useState(0); 
 
-  // ---------- HEADER ----------
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: 'Contrarreloj',
@@ -80,16 +73,14 @@ export default function TimeAttackScreen({ route, navigation }) {
     });
   }, [navigation, highContrast]);
 
-  // ---------- CARGA DE PREGUNTAS (mezcla aleatoria de BD) ----------
+
   const preloadMixed = useCallback(async () => {
     setLoading(true);
     setLoadError('');
     try {
-      // pedimos un puñado de cada combinación (pequeño para no sobrecargar)
       const all = [];
       const seen = new Set();
       for (const lvl of LEVELS) {
-        // pedimos por grupos de categorías para ese nivel
         const fromLevel = await getBatchQuestions({ level: lvl, count: 8, categories: CATS });
         for (const raw of (fromLevel || [])) {
           const q = normalizeQuestion(raw, raw.level, raw.category);
@@ -123,7 +114,6 @@ export default function TimeAttackScreen({ route, navigation }) {
     }
   }, [getBatchQuestions]);
 
-  // montaje: precargar y arrancar el reloj
   useEffect(() => {
     preloadMixed();
   }, [preloadMixed]);
@@ -142,14 +132,12 @@ export default function TimeAttackScreen({ route, navigation }) {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [phase, totalMs]);
 
-  // terminar por tiempo
   useEffect(() => {
     if (phase === 'playing' && remaining <= 0) {
       endLose();
     }
   }, [remaining, phase]);
 
-  // ---------- helpers fin ----------
   const endLose = () => {
     setPhase('done');
     if (timerRef.current) clearInterval(timerRef.current);
@@ -158,12 +146,11 @@ export default function TimeAttackScreen({ route, navigation }) {
   const endWin = async () => {
     setPhase('done');
     if (timerRef.current) clearInterval(timerRef.current);
-    // premio
     try { await addXP(REWARD_XP); } catch { /* noop */ }
     setResultModal({ show: true, win: true });
   };
 
-  // ---------- navegación de preguntas ----------
+
   const nextQuestion = () => {
     setSelected(null);
     setShowContinue(false);
@@ -172,9 +159,8 @@ export default function TimeAttackScreen({ route, navigation }) {
       setIndex(nextIdx);
       return;
     }
-    // fin de la ronda actual
+
     if (!isReviewRound) {
-      // si hubo fallos y quedan tiempo y vidas -> pasamos a ronda de repaso
       if (wrongQueueRef.current.length > 0 && remaining > 0 && lives > 0) {
         setPack(wrongQueueRef.current);
         setIndex(0);
@@ -182,18 +168,15 @@ export default function TimeAttackScreen({ route, navigation }) {
         setIsReviewRound(true);
         setAnsweredCorrect(0);
       } else {
-        // todas bien en la primera pasada o no hay tiempo/vidas => victoria si todas bien
         if (wrongQueueRef.current.length === 0) endWin();
         else endLose();
       }
     } else {
-      // terminamos ronda de repaso: si ya no hubo fallos, victoria
       if (wrongQueueRef.current.length === 0) endWin();
       else endLose();
     }
   };
 
-  // ---------- interacción ----------
   const onPick = (opt) => {
     if (phase !== 'playing' || !q || q.type !== 'multiple' || showContinue) return;
     setSelected(opt);
@@ -202,7 +185,6 @@ export default function TimeAttackScreen({ route, navigation }) {
       setAnsweredCorrect(v => v + 1);
       nextQuestion();
     } else {
-      // fallo: consumimos vida y guardamos para repaso
       if (lives - 1 <= 0) {
         setLives(0);
         endLose();
@@ -210,17 +192,14 @@ export default function TimeAttackScreen({ route, navigation }) {
       }
       setLives(l => l - 1);
       wrongQueueRef.current.push(q);
-      // marcar rojo y mostrar “Continuar”
       setShowContinue(true);
     }
   };
 
   const onContinueAfterWrong = () => {
-    // tras mostrar en rojo, pasamos a la siguiente
     nextQuestion();
   };
 
-  // ---------- UI ----------
   const Container = highContrast ? View : LinearGradient;
   const containerProps = highContrast
     ? { style: styles.container }
@@ -245,7 +224,6 @@ export default function TimeAttackScreen({ route, navigation }) {
     if (!q) return null;
     return (
       <>
-        {/* HUD */}
         <View style={sx.hud}>
           <View style={[sx.badge, highContrast && sx.hcBadge]}>
             <Text style={[sx.badgeText, highContrast && sx.hcBadgeText]}>⏱ {formatHMS(remaining)}</Text>
@@ -257,12 +235,10 @@ export default function TimeAttackScreen({ route, navigation }) {
           </View>
         </View>
 
-        {/* Pregunta */}
         <View style={[sx.card, highContrast && sx.hcCard]}>
           <Text style={[sx.qText, highContrast && { color: '#0B0B0B' }]}>{q.question}</Text>
         </View>
 
-        {/* Opciones */}
         <View style={{ marginTop: 4 }}>
           {(q.options ?? []).map((opt, i) => {
             const wrong = showContinue && selected === opt && opt !== q.answer;
@@ -291,7 +267,6 @@ export default function TimeAttackScreen({ route, navigation }) {
           })}
         </View>
 
-        {/* Continuar cuando falló */}
         {showContinue && (
           <>
             <Text style={[sx.helpText, highContrast && { color: '#0B0B0B' }]}>
@@ -312,7 +287,6 @@ export default function TimeAttackScreen({ route, navigation }) {
         {phase === 'preload' && renderPreload()}
         {phase !== 'preload' && renderGame()}
 
-        {/* Modal fin */}
         <Modal transparent visible={resultModal.show} animationType={reduceMotion ? 'none' : 'fade'}>
           <View style={sx.modalBackdrop}>
             <View style={[sx.modalCard, highContrast && sx.hcCard]}>

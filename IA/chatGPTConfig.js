@@ -1,5 +1,5 @@
 import axios from "axios";
-import { OPENAI_API_KEY } from "./secret.local"; // ← import local, no versionado
+import { OPENAI_API_KEY } from "./secret.local"; 
 
 // Cliente Axios para OpenAI
 const api = axios.create({
@@ -12,13 +12,11 @@ const api = axios.create({
 });
 
 
-// ---- Utilidades de normalizaci贸n ----
 function normalizeOne(obj, level, category) {
   if (!obj || typeof obj !== "object") return null;
 
-  const tipo = obj.tipo || obj.type; // por si viene en espa帽ol/ingl茅s
+  const tipo = obj.tipo || obj.type; 
 
-  // Tipo "emparejamiento" / "matching"
   if (tipo === "emparejamiento" || obj.type === "matching") {
     const left = obj.izquierda ?? obj.left;
     const right = obj.derecha ?? obj.right;
@@ -36,7 +34,6 @@ function normalizeOne(obj, level, category) {
     };
   }
 
-  // Default: opci贸n m煤ltiple
   const opciones = obj.opciones ?? obj.options;
   return {
     type: "multiple",
@@ -57,11 +54,6 @@ const shuffleInPlace = (a) => {
   return a;
 };
 
-// ---- Generador principal ----
-/**
- * Genera un LOTE de ejercicios y los devuelve normalizados (NO guarda).
- * Devuelve balance 50% multiple / 50% matching (o lo m谩s cercano posible).
- */
 export async function generarLote(level, category, count = 10) {
   const cat = String(category || "").toLowerCase();
   const lev = String(level || "").toLowerCase();
@@ -111,12 +103,10 @@ export async function generarLote(level, category, count = 10) {
         { role: "user", content: user },
       ],
       temperature: 0.4,
-      // OJO: no usamos response_format para no forzar objeto.
     });
 
     raw = data?.choices?.[0]?.message?.content ?? "[]";
   } catch (err) {
-    // Mensaje de error razonable
     const msg =
       err?.response?.data?.error?.message ||
       err?.message ||
@@ -125,7 +115,6 @@ export async function generarLote(level, category, count = 10) {
     throw new Error(msg);
   }
 
-  // Parseo robusto (la IA a veces env铆a objeto en vez de array)
   let arr = [];
   try {
     const any = JSON.parse(raw);
@@ -138,7 +127,6 @@ export async function generarLote(level, category, count = 10) {
       arr = k ? any[k] : [];
     }
   } catch {
-    // Si viene con texto basura, intenta limpiar
     const start = raw.indexOf("[");
     const end = raw.lastIndexOf("]");
     if (start >= 0 && end > start) {
@@ -154,7 +142,6 @@ export async function generarLote(level, category, count = 10) {
 
   const normalized = arr.map((x) => normalizeOne(x, lev, cat)).filter(Boolean);
 
-  // --- Rebalanceo 50/50 ---
   const wantMultiple = Math.floor(n / 2);
   const wantMatching = n - wantMultiple;
 

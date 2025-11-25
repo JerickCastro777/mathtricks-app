@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-nativ
 import Toast from 'react-native-toast-message';
 import { AppContext } from '../contexts/AppContext';
 
-// Valores seguros + etiquetas con ortografía correcta
 const CATS = [
   { value: 'fracciones', label: 'Fracciones' },
   { value: 'algebra', label: 'Álgebra' },

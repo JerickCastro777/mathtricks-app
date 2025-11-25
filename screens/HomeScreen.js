@@ -134,16 +134,13 @@ export default function HomeScreen({ navigation }) {
 function CategoryBar({ categoryKey, cfg, open, onToggle, onSelectLevel, highContrast }) {
   const { reduceMotion } = useContext(AppContext);
 
-  // animaciones
-  const heightAnim = useRef(new Animated.Value(0)).current; // height → JS driver
-  const opacityAnim = useRef(new Animated.Value(0)).current; // opacity → native driver
+  const heightAnim = useRef(new Animated.Value(0)).current; 
+  const opacityAnim = useRef(new Animated.Value(0)).current; 
   const rotateAnim  = useRef(new Animated.Value(open ? 1 : 0)).current;
 
-  // medición del contenido
   const [contentH, setContentH] = useState(0);
   const measuredRef = useRef(false);
 
-  // contenido reutilizable (visible e "invisible" para medir)
   const LevelsContent = ({ forMeasure = false }) => (
     <View
       style={forMeasure ? { position: 'absolute', left: -9999, opacity: 0 } : null}
@@ -196,7 +193,6 @@ function CategoryBar({ categoryKey, cfg, open, onToggle, onSelectLevel, highCont
     </View>
   );
 
-  // animación open/close (usa contentH medido)
   useEffect(() => {
     const dur = reduceMotion ? 0 : 230;
     Animated.parallel([
@@ -215,7 +211,6 @@ function CategoryBar({ categoryKey, cfg, open, onToggle, onSelectLevel, highCont
 
   return (
     <View>
-      {/* medidor oculto: calcula contentH una vez */}
       {!measuredRef.current && <LevelsContent forMeasure />}
 
       <BarBG {...barProps}>
@@ -232,7 +227,6 @@ function CategoryBar({ categoryKey, cfg, open, onToggle, onSelectLevel, highCont
         </Pressable>
       </BarBG>
 
-      {/* contenedor animado: height afuera (JS), opacity adentro (native) */}
       <Animated.View style={{ height: heightAnim, overflow: 'hidden' }}>
         <Animated.View style={{ opacity: opacityAnim }}>
           <LevelsContent />

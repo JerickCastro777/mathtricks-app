@@ -1,7 +1,13 @@
 // firebase/firebaseConfig.js
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/auth';
+import {
+  initializeAuth,
+  getReactNativePersistence,
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -14,15 +20,10 @@ const firebaseConfig = {
   appId: "1:195455809564:web:c8d62136da91d7498dc7d9",
 };
 
-// Evita doble inicialización de la app
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// DB
 const db = getDatabase(app);
 
-// ---- Auth con persistencia en RN/Expo (warning-free) ----
-// Primero intentamos initializeAuth con AsyncStorage.
-// Si ya estaba inicializado (fast refresh), usamos getAuth(app).
 let auth;
 try {
   auth = initializeAuth(app, {
@@ -32,16 +33,12 @@ try {
   auth = getAuth(app);
 }
 
-// ---- Helpers usados por tu AppContext (restaurados) ----
 export async function loginUser(email, password) {
-  // Import dinámico para evitar issues de tree-shaking en Metro
-  const { signInWithEmailAndPassword } = await import('firebase/auth');
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return { uid: user.uid, email: user.email };
 }
 
 export async function registerUser(email, password) {
-  const { createUserWithEmailAndPassword } = await import('firebase/auth');
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   return { uid: user.uid, email: user.email };
 }

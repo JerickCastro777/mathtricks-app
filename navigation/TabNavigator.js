@@ -5,7 +5,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import { Text } from 'react-native';
 import React, { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
-import AdminQuestionsScreen from '../screens/AdminQuestionsScreen'; // NEW
+import AdminQuestionsScreen from '../screens/AdminQuestionsScreen'; 
 
 const Tab = createBottomTabNavigator();
 
